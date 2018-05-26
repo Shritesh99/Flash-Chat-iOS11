@@ -6,7 +6,8 @@
 
 
 import UIKit
-
+import Firebase
+import GoogleSignIn
 
 class LogInViewController: UIViewController {
 
@@ -23,11 +24,20 @@ class LogInViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-   
+    @IBAction func googleSignIn(_ sender: UIButton) {
+    }
+    
     @IBAction func logInPressed(_ sender: AnyObject) {
 
         
         //TODO: Log in the user
+        Auth.auth().signIn(withEmail: emailTextfield.text!, password: passwordTextfield.text!) { (user, error) in
+            if error != nil {
+                print(error!)
+            }else {
+                self.performSegue(withIdentifier: "goToChat", sender: self)
+            }
+        }
         
         
     }

@@ -204,18 +204,52 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmN-2m-Hxv">
+                                        <rect key="frame" x="171" y="212" width="32" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nnN-lQ-hJX">
+                                        <rect key="frame" x="16" y="248" width="343" height="30"/>
+                                        <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Sign-In with Google">
+                                            <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="googleSignIn:" destination="xYK-ej-9R9" eventType="touchUpInside" id="xN7-gx-Nvv"/>
+                                            <action selector="logInPressed:" destination="xYK-ej-9R9" eventType="touchUpInside" id="UUX-7U-aUh"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="282" id="1o1-zR-5Hr"/>
                                     <constraint firstAttribute="centerX" secondItem="zuQ-XP-4Q7" secondAttribute="centerX" id="6DW-Ma-vqz"/>
+                                    <constraint firstItem="nnN-lQ-hJX" firstAttribute="centerX" secondItem="Cr0-Ts-jsg" secondAttribute="centerX" id="9Ip-oA-fvF"/>
                                     <constraint firstItem="zuQ-XP-4Q7" firstAttribute="top" secondItem="ZWF-xv-G1L" secondAttribute="bottom" constant="8" id="9qO-mU-bJe"/>
+                                    <constraint firstAttribute="bottom" secondItem="fmN-2m-Hxv" secondAttribute="bottom" constant="42" id="AD9-Fn-sgQ"/>
+                                    <constraint firstItem="fmN-2m-Hxv" firstAttribute="top" secondItem="OD6-NY-DlK" secondAttribute="bottom" constant="18" id="AcT-oJ-fPs"/>
+                                    <constraint firstAttribute="bottom" secondItem="fmN-2m-Hxv" secondAttribute="bottom" constant="42" id="AnZ-vI-F9V"/>
+                                    <constraint firstItem="fmN-2m-Hxv" firstAttribute="top" secondItem="OD6-NY-DlK" secondAttribute="bottom" constant="18" id="Chr-Sj-2pQ"/>
                                     <constraint firstAttribute="centerY" secondItem="zuQ-XP-4Q7" secondAttribute="centerY" id="Koq-2N-zL7"/>
+                                    <constraint firstItem="nnN-lQ-hJX" firstAttribute="leading" secondItem="Cr0-Ts-jsg" secondAttribute="leading" constant="16" id="ORO-YC-JgE"/>
+                                    <constraint firstItem="fmN-2m-Hxv" firstAttribute="leading" secondItem="Cr0-Ts-jsg" secondAttribute="leading" constant="171" id="ORd-Un-jJG"/>
                                     <constraint firstAttribute="trailing" secondItem="zuQ-XP-4Q7" secondAttribute="trailing" constant="16" id="PbC-lU-nQN"/>
                                     <constraint firstAttribute="trailing" secondItem="ZWF-xv-G1L" secondAttribute="trailing" constant="16" id="RAW-Vw-BSa"/>
+                                    <constraint firstAttribute="bottom" secondItem="nnN-lQ-hJX" secondAttribute="bottom" constant="4" id="TLb-sk-CvV"/>
                                     <constraint firstItem="ZWF-xv-G1L" firstAttribute="leading" secondItem="Cr0-Ts-jsg" secondAttribute="leading" constant="16" id="WoX-TH-VcD"/>
                                     <constraint firstAttribute="trailing" secondItem="OD6-NY-DlK" secondAttribute="trailing" constant="16" id="cbh-RB-oAH"/>
+                                    <constraint firstAttribute="trailing" secondItem="nnN-lQ-hJX" secondAttribute="trailing" constant="16" id="dPv-YV-Lft"/>
+                                    <constraint firstAttribute="trailing" secondItem="fmN-2m-Hxv" secondAttribute="trailing" constant="172" id="jE0-Jd-mJ0"/>
                                     <constraint firstItem="OD6-NY-DlK" firstAttribute="leading" secondItem="Cr0-Ts-jsg" secondAttribute="leading" constant="16" id="lcJ-YF-8D1"/>
+                                    <constraint firstAttribute="trailing" secondItem="fmN-2m-Hxv" secondAttribute="trailing" constant="172" id="m45-Da-iwB"/>
+                                    <constraint firstItem="nnN-lQ-hJX" firstAttribute="centerY" secondItem="Cr0-Ts-jsg" secondAttribute="centerY" constant="122" id="mhL-Nj-4vC"/>
+                                    <constraint firstItem="nnN-lQ-hJX" firstAttribute="top" secondItem="fmN-2m-Hxv" secondAttribute="bottom" constant="8" id="oSe-dm-FnH"/>
                                     <constraint firstItem="zuQ-XP-4Q7" firstAttribute="leading" secondItem="Cr0-Ts-jsg" secondAttribute="leading" constant="16" id="oxr-A5-5Mk"/>
+                                    <constraint firstItem="fmN-2m-Hxv" firstAttribute="centerX" secondItem="Cr0-Ts-jsg" secondAttribute="centerX" id="pB6-aJ-upd"/>
+                                    <constraint firstItem="fmN-2m-Hxv" firstAttribute="centerY" secondItem="Cr0-Ts-jsg" secondAttribute="centerY" constant="85" id="sRM-F2-Rtb"/>
+                                    <constraint firstItem="fmN-2m-Hxv" firstAttribute="leading" secondItem="Cr0-Ts-jsg" secondAttribute="leading" constant="171" id="z4X-zm-nDb"/>
                                     <constraint firstItem="OD6-NY-DlK" firstAttribute="top" secondItem="zuQ-XP-4Q7" secondAttribute="bottom" constant="8" id="zu2-Ha-mWK"/>
                                 </constraints>
                             </view>
@@ -358,6 +392,6 @@
         <image name="background1" width="1800" height="1192"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mOy-cb-hAN"/>
+        <segue reference="rRW-Qd-PQi"/>
     </inferredMetricsTieBreakers>
 </document>
