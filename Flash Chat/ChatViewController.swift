@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import ChameleonFramework
+import SVProgressHUD
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -46,6 +48,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         configureTableView()
         retrieveMessages()
+        
+        messageTableView.separatorStyle = .none
     }
 
     ///////////////////////////////////////////
@@ -62,6 +66,18 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         cell.messageBody.text = messageArray[indexPath.row].message
         cell.senderUsername.text = messageArray[indexPath.row].sender
+        
+        if cell.senderUsername.text == Auth.auth().currentUser?.email {
+            cell.avatarImageView.backgroundColor = UIColor.flatMint()
+            cell.messageBackground.backgroundColor = UIColor.flatSkyBlue()
+        }
+        else if cell.senderUsername.text == Auth.auth().currentUser?.displayName {
+            cell.messageBackground.backgroundColor = UIColor.flatSkyBlue()
+        }
+        else {
+            cell.avatarImageView.backgroundColor = UIColor.flatWatermelon()
+            cell.messageBackground.backgroundColor = UIColor.flatGray()
+        }
         
         if let imgUrl = Auth.auth().currentUser?.photoURL{
             if let data = try? Data(contentsOf: imgUrl){
@@ -138,10 +154,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         messageTextfield.isEnabled = false
         sendButton.isEnabled = false
+        SVProgressHUD.show()
         
         let messageDB = Database.database().reference().child("Message")
         
-        let messageDict = ["Sender" : Auth.auth().currentUser?.displayName , "MessageBody" : messageTextfield.text! ]
+        let sender = (Auth.auth().currentUser?.displayName != nil) ? (Auth.auth().currentUser?.displayName)! : (Auth.auth().currentUser?.email)!
+        let messageDict = ["Sender" :  sender, "MessageBody" : messageTextfield.text! ]
         
         messageDB.childByAutoId().setValue(messageDict){
             (error, reference) in
@@ -151,6 +169,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.messageTextfield.isEnabled = true
                 self.messageTextfield.text = ""
                 self.sendButton.isEnabled = true
+                SVProgressHUD.dismiss()
             }
         }
         
@@ -159,6 +178,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     //TODO: Create the retrieveMessages method here:
     
     func retrieveMessages(){
+        SVProgressHUD.show()
         let messageDB = Database.database().reference().child("Message")
         
         messageDB.observe(.childAdded){
@@ -172,15 +192,17 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.configureTableView()
             self.messageTableView.reloadData()
+            SVProgressHUD.dismiss()
         }
     }
     
     @IBAction func logOutPressed(_ sender: AnyObject) {
         
         //TODO: Log out the user and send them back to WelcomeViewController
-        
+        SVProgressHUD.show()
         do{
            try Auth.auth().signOut()
+            SVProgressHUD.dismiss()
             navigationController?.popViewController(animated: true)
         }
         catch{

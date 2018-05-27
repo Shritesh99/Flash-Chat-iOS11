@@ -32,6 +32,7 @@ class LogInViewController: UIViewController, GIDSignInDelegate ,GIDSignInUIDeleg
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        SVProgressHUD.show()
         if (error) != nil {
             return
         }
@@ -41,10 +42,10 @@ class LogInViewController: UIViewController, GIDSignInDelegate ,GIDSignInUIDeleg
                                                        accessToken: authentication.accessToken)
         Auth.auth().signInAndRetrieveData(with: credential){ (user, error) in
             if (error) != nil {
-                
+                SVProgressHUD.dismiss()
             } else {
                 
-                
+                SVProgressHUD.dismiss()
                 self.performSegue(withIdentifier: "goToChat", sender: self)
             }
         }
@@ -60,6 +61,7 @@ class LogInViewController: UIViewController, GIDSignInDelegate ,GIDSignInUIDeleg
         Auth.auth().signIn(withEmail: emailTextfield.text!, password: passwordTextfield.text!) { (user, error) in
             if error != nil {
                 print(error!)
+                SVProgressHUD.dismiss()
             }else {
                 SVProgressHUD.dismiss()
                 self.performSegue(withIdentifier: "goToChat", sender: self)
