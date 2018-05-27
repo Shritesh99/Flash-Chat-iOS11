@@ -41,9 +41,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         messageTableView.addGestureRecognizer(tapGesture)
 
         //TODO: Register your MessageCell.xib file here:
+        
         messageTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "customMessageCell")
         
         configureTableView()
+        retrieveMessages()
     }
 
     ///////////////////////////////////////////
@@ -58,13 +60,26 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "customMessageCell", for: indexPath) as! CustomMessageCell
         
+        cell.messageBody.text = messageArray[indexPath.row].message
+        cell.senderUsername.text = messageArray[indexPath.row].sender
+        
+        if let imgUrl = Auth.auth().currentUser?.photoURL{
+            if let data = try? Data(contentsOf: imgUrl){
+            cell.avatarImageView.image = UIImage(data: data)
+        }}
+        else{
+            cell.avatarImageView.image = UIImage(named: "egg")
+        }
+        
+        
+        
         return cell
     }
     
     //TODO: Declare numberOfRowsInSection here:
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return messageArray.count
     }
     
     
@@ -143,10 +158,22 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //TODO: Create the retrieveMessages method here:
     
-    
-
-    
-    
+    func retrieveMessages(){
+        let messageDB = Database.database().reference().child("Message")
+        
+        messageDB.observe(.childAdded){
+            (snapshot) in
+           let snapshotValue = snapshot.value as! Dictionary<String,String>
+            let text = snapshotValue["MessageBody"]!
+            let sender = snapshotValue["Sender"]!
+            
+            let message = Message(sender: sender, message: text)
+            self.messageArray.append(message)
+            
+            self.configureTableView()
+            self.messageTableView.reloadData()
+        }
+    }
     
     @IBAction func logOutPressed(_ sender: AnyObject) {
         
