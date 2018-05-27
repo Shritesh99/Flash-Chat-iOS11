@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import SVProgressHUD
 
 class LogInViewController: UIViewController, GIDSignInDelegate ,GIDSignInUIDelegate {
 
@@ -32,7 +33,6 @@ class LogInViewController: UIViewController, GIDSignInDelegate ,GIDSignInUIDeleg
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         if (error) != nil {
-            print("An error occured during Google Authentication")
             return
         }
         
@@ -41,9 +41,9 @@ class LogInViewController: UIViewController, GIDSignInDelegate ,GIDSignInUIDeleg
                                                        accessToken: authentication.accessToken)
         Auth.auth().signInAndRetrieveData(with: credential){ (user, error) in
             if (error) != nil {
-                print("Google Authentification Fail")
+                
             } else {
-                print("Google Authentification Success")
+                
                 
                 self.performSegue(withIdentifier: "goToChat", sender: self)
             }
@@ -54,10 +54,14 @@ class LogInViewController: UIViewController, GIDSignInDelegate ,GIDSignInUIDeleg
     @IBAction func logInPressed(_ sender: AnyObject) {
 
         //TODO: Log in the user
+        
+        SVProgressHUD.show()
+        
         Auth.auth().signIn(withEmail: emailTextfield.text!, password: passwordTextfield.text!) { (user, error) in
             if error != nil {
                 print(error!)
             }else {
+                SVProgressHUD.dismiss()
                 self.performSegue(withIdentifier: "goToChat", sender: self)
             }
         }
