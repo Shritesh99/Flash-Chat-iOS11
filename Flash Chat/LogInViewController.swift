@@ -9,27 +9,50 @@ import UIKit
 import Firebase
 import GoogleSignIn
 
-class LogInViewController: UIViewController {
+class LogInViewController: UIViewController, GIDSignInDelegate ,GIDSignInUIDelegate {
 
     //Textfields pre-linked with IBOutlets
     @IBOutlet var emailTextfield: UITextField!
     @IBOutlet var passwordTextfield: UITextField!
     
+    @IBOutlet weak var signInButton: GIDSignInButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
+        //GIDSignIn.sharedInstance().signIn()
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-    @IBAction func googleSignIn(_ sender: UIButton) {
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        if (error) != nil {
+            print("An error occured during Google Authentication")
+            return
+        }
+        
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        Auth.auth().signInAndRetrieveData(with: credential){ (user, error) in
+            if (error) != nil {
+                print("Google Authentification Fail")
+            } else {
+                print("Google Authentification Success")
+                
+                self.performSegue(withIdentifier: "goToChat", sender: self)
+            }
+        }
     }
+    
     
     @IBAction func logInPressed(_ sender: AnyObject) {
 
-        
         //TODO: Log in the user
         Auth.auth().signIn(withEmail: emailTextfield.text!, password: passwordTextfield.text!) { (user, error) in
             if error != nil {
@@ -40,6 +63,14 @@ class LogInViewController: UIViewController {
         }
         
         
+    }
+    
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        let googleAuthentication = GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
+        
+        
+        return googleAuthentication
     }
     
 

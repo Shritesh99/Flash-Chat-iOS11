@@ -8,26 +8,12 @@
 
 import UIKit
 import Firebase
-import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate  {
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-        if let error = error {
-            print(error)
-            return
-        }
-        
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-                                                       accessToken: authentication.accessToken)
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+class AppDelegate: UIResponder, UIApplicationDelegate  {
 
-    }
     
-
+    
     var window: UIWindow?
     
     
@@ -36,19 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate  {
         //TODO: Initialise and Configure your Firebase here:
         
         FirebaseApp.configure()
-        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-        GIDSignIn.sharedInstance().delegate = self
-    
         return true
     }
-    @available(iOS 9.0, *)
-    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any])
-        -> Bool {
-            return GIDSignIn.sharedInstance().handle(url,
-                                    sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
-                                                     annotation: [:])
-    }
-    
     
     
     
@@ -73,6 +48,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate  {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    
+    
 
 //MARK: - Uncomment this only once you've gotten to Step 14.
     /*
