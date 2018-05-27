@@ -81,7 +81,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if let imgUrl = Auth.auth().currentUser?.photoURL{
             if let data = try? Data(contentsOf: imgUrl){
-            cell.avatarImageView.image = UIImage(data: data)
+               if cell.senderUsername.text == Auth.auth().currentUser?.displayName{
+                 cell.avatarImageView.image = UIImage(data: data)
+                }
+               else {
+                cell.avatarImageView.image = UIImage(named: "egg")
+                }
         }}
         else{
             cell.avatarImageView.image = UIImage(named: "egg")
